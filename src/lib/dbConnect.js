@@ -10,7 +10,7 @@ const options = {
     },
 };
 
-let client; 
+let client;
 let clientPromise;
 
 if (!uri) {
@@ -28,4 +28,14 @@ if (process.env.NODE_ENV === 'development') {
     clientPromise = client.connect();
 }
 
-export default clientPromise;
+const dbConnect = async(collectionName) =>{
+    try {
+        const client = await clientPromise;
+        const db = client.db('rannaghor'); 
+        return db.collection(collectionName); 
+    } catch (error) {
+        console.error('Failed to connect to the database:', error);
+    }
+}
+
+export default dbConnect;
